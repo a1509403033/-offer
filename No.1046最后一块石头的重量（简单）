@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int lastStoneWeight(vector<int>& stones) {
+        sort(stones.begin(), stones.end());
+        while(stones.size()>1){
+            int max1 = stones[stones.size()-1];
+            int max2 = stones[stones.size()-2];
+            stones.pop_back();
+            stones.pop_back();
+            if(max1 != max2){
+                int new_stone = max1 - max2;
+                
+                if(stones.size()==0) stones.push_back(new_stone);
+                else {
+                    int yes = 0;
+                    for(int i=0;i<stones.size();i++){
+                        if(stones[i]>=new_stone){
+                            yes = 1;
+                            stones.insert(stones.begin()+i, new_stone);
+                            break;
+                        }
+                    }
+                    if(yes == 0) stones.push_back(new_stone);
+                }
+            }
+        }
+        if(stones.size()==0) return 0;
+        else return stones[0];
+    }
+};
