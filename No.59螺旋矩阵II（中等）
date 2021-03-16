@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        /* 由外向内 顺时针遍历每一层并赋值 */
+        vector<int> row(n, 0);
+        vector<vector<int>> res(n, row);
+        int count = 1, layer = 0, i = 0, j = 0;
+        while(count <= n * n) {
+            res[i][j] = count++;
+            if(i == layer && j != n - layer - 1) {++j; continue;}
+            if(j == n - layer - 1 && i != n - layer - 1) {++i; continue;}
+            if(i == n - layer - 1 && j != layer) {--j; continue;}
+            if(j == layer && i != layer) --i;
+            if(i == layer && j == layer) { //回到该层起始点，单层遍历完成，更新下一层索引
+                ++layer;
+                i = j = layer;
+            }
+        }
+        return res;
+    }
+};
