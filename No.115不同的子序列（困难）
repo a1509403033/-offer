@@ -1,0 +1,25 @@
+class Solution {
+public:
+    // f[i][j] : s[0...i-1]中有多少不同的子序列是t[0...j-1]
+    // i=0...ss    j=0...ts
+    // return f[ss][ts]
+    // f[i][j]=  f[i-1][j-1] + f[i-1][j] if s[i-1]==t[j-1]
+    //        =  f[i-1][j]               if s[i-1]!=t[j-1]
+    // f[0][j]=0    j=1...ts
+    // f[i][0]=1    i=0...ss
+    int numDistinct(string s, string t) {
+        int ss = s.size(), ts = t.size();
+        if (ss < ts) return 0;
+        // ss >= ts
+        vector<long> f(ts + 1, 0);
+        for (int i = 0; i <= ss; ++i) {
+            for (int j = ts; j >= 0; --j) {
+                if (0 == j) f[j] = 1;
+                else if (0 == i) f[j] = 0;
+                else if (s[i-1] == t[j-1]) f[j] += f[j-1];
+                //cout << "i=" << i << " j=" << j << " " << f[j] << endl;
+            }
+        }
+        return f[ts];
+    }
+};
